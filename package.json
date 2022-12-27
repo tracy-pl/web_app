@@ -2,7 +2,6 @@
   "name": "web_app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "webapp-production-449a.up.railway.app/",
   "scripts": {
     "start": "PUBLIC_URL=http://localhost:3000/ react-scripts start",
     "build": "react-scripts build",

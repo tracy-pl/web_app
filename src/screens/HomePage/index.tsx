@@ -6,7 +6,7 @@ import {
   LogoutOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Layout, Menu, Modal, theme } from 'antd';
+import { Avatar, Layout, Menu, Modal, theme } from 'antd';
 import { useGetMeQuery } from '../../redux/user';
 import { useLogoutMutation } from '../../features/auth/redux';
 import { useAppSelector } from '../../hooks';
@@ -35,11 +35,7 @@ const useLogout = () => {
 };
 
 const App: React.FC = () => {
-  const {
-    data: user,
-    isLoading,
-    refetch,
-  } = useGetMeQuery(undefined, {
+  const { data: user, isLoading } = useGetMeQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   const { logout } = useLogout();
@@ -109,10 +105,7 @@ const App: React.FC = () => {
       <Layout>
         {/*TODO: get background from theme provider */}
         <S.Header background={colorBgContainer}>
-          <div>
-            {isLoading && <LoadingOutlined />}
-            <Button onClick={refetch}>Refetch profile</Button>
-          </div>
+          <div>{isLoading && <LoadingOutlined />}</div>
           <div>
             <Avatar
               src={user?.avatar}
@@ -130,7 +123,7 @@ const App: React.FC = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          In development...
         </Content>
       </Layout>
     </Layout>

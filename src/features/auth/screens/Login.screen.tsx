@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, Layout, message, Typography } from 'antd';
 import { useLoginMutation } from '../redux';
+
+const { Title } = Typography;
 
 export const LoginScreen = () => {
   const [login, { isLoading, isError, error }] = useLoginMutation();
@@ -33,38 +35,43 @@ export const LoginScreen = () => {
   };
 
   return (
-    <>
-      {contextHolder}
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
+    <Layout style={{ height: '100vh' }}>
+      <Layout.Content style={{ padding: '100px' }}>
+        {contextHolder}
+        <Form
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="on"
+          style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}
         >
-          <Input type="email" />
-        </Form.Item>
+          <Title>Sign in</Title>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
+          >
+            <Input type="email" placeholder="Email" />
+          </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button loading={isLoading} type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              style={{ width: '100%' }}
+              loading={isLoading}
+              type="primary"
+              htmlType="submit"
+            >
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Layout.Content>
+    </Layout>
   );
 };

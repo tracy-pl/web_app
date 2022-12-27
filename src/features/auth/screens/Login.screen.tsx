@@ -14,7 +14,7 @@ export const LoginScreen = () => {
         type: 'error',
         // TODO: transform error response
         // @ts-ignore
-        content: error?.data?.message as string,
+        content: error?.data?.message || 'Something went wrong',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,4 @@
 export const API_BASE_URL =
-  process.env.API_BASE_URL || 'http://localhost:3001/api';
-
-//TODO: remove it
-console.log({ API_BASE_URL });
+  process.env.NODE_ENV !== 'development'
+    ? 'https://tracy-server-devci.up.railway.app/api'
+    : 'http://localhost:3001/api';

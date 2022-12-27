@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 
+import packageJson from '../../../package.json';
+
 import { P } from './P';
 
 export function NotFoundPage() {
@@ -20,6 +22,7 @@ export function NotFoundPage() {
           4
         </Title>
         <P>Page not found.</P>
+        <p>v {packageJson.version}</p>
       </Wrapper>
     </>
   );

@@ -1,10 +1,8 @@
+import { setupListeners } from '@reduxjs/toolkit/query';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import persistStore from 'redux-persist/es/persistStore';
 import storage from 'redux-persist/lib/storage';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { userReducer, userApi } from './user';
-import { authReducer, authApi } from 'features/auth/redux';
+import persistStore from 'redux-persist/es/persistStore';
 import {
   FLUSH,
   PAUSE,
@@ -13,6 +11,10 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist/es/constants';
+
+import { userReducer, userApi } from './user';
+import { authReducer, authApi } from 'features/auth/redux';
+import { adminApi, adminReducer } from 'features/admin/redux';
 
 const defaultMiddlewareConfig = {
   serializableCheck: {
@@ -27,8 +29,10 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  [adminApi.reducerPath]: adminApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
+  admin: adminReducer,
   auth: authReducer,
   user: userReducer,
 });
@@ -42,6 +46,7 @@ const setupStore = () => {
       getDefaultMiddleware(defaultMiddlewareConfig).concat([
         authApi.middleware,
         userApi.middleware,
+        adminApi.middleware,
       ]),
   });
 };

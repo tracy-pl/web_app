@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Layout } from 'antd';
+import styled from 'styled-components';
 
 export namespace S {
   export const LogoContainer = styled.div`

@@ -7,18 +7,17 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from 'screens/HomePage/Loadable';
 import { NotFoundPage } from 'screens/NotFoundPage/Loadable';
-import { useAppSelector } from './hooks';
+import { LoginScreen } from 'features/auth/screens/Login/Loadable';
+import { UsersPage } from 'features/admin/screens/UsersPage/Loadable';
 
-import 'antd/dist/reset.css';
+import { Layout } from 'components/Layout';
 
-import { LoginScreen } from './features/auth/screens/Login.screen';
-import { isLoggedIn } from './redux/user';
+import { useAppSelector } from 'hooks';
+import { isLoggedInSelector } from 'redux/user';
 
 export function App() {
   const { i18n } = useTranslation();
-  const isAuthenticated = useAppSelector(isLoggedIn);
-
-  console.info({ isAuthenticated });
+  const isLoggedIn = useAppSelector(isLoggedInSelector);
 
   return (
     <BrowserRouter>
@@ -30,12 +29,16 @@ export function App() {
         <meta name="description" content="Tracy application" />
       </Helmet>
       <Routes>
-        {!isAuthenticated ? (
-          <Route path="/" element={<LoginScreen />} />
+        {!isLoggedIn ? (
+          <Route path="*" element={<LoginScreen />} />
         ) : (
-          <Route path="/" element={<HomePage />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/users" element={<UsersPage />} />
+            <Route path="/tracy" element={<div>Tracy</div>} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
         )}
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <GlobalStyle />
     </BrowserRouter>

@@ -1,16 +1,16 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 
-import * as React from 'react';
-import 'sanitize.css/sanitize.css';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 
+import 'locales/i18n';
+import 'antd/dist/reset.css';
+import reportWebVitals from 'reportWebVitals';
+
 import { App } from 'App';
 import { ErrorBoundary, ReduxProvider, ThemeProvider } from 'providers';
-
-import reportWebVitals from 'reportWebVitals';
-import 'locales/i18n';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Form, Input, Layout, message, Typography } from 'antd';
-import { useLoginMutation } from '../redux';
+import { useLoginMutation } from '../../redux';
 
 const { Title } = Typography;
 

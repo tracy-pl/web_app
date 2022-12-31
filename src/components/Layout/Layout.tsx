@@ -18,9 +18,9 @@ export const Layout = () => {
     refetchOnMountOrArgChange: true,
   });
   const { t } = useTranslation();
-  const { logout } = useLogout();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { logout } = useLogout();
 
   const menuItems = useMemo(
     () => [
@@ -52,7 +52,10 @@ export const Layout = () => {
     ({ key }) => navigate(key),
     [navigate],
   );
-  const defaultSelectedKeys = useMemo(() => [pathname], [pathname]);
+  const defaultSelectedKeys = useMemo(
+    () => [location.pathname],
+    [location.pathname],
+  );
 
   return (
     <S.Spin spinning={userIsLoading}>

@@ -7,7 +7,7 @@ import type {
 import { Mutex } from 'async-mutex';
 
 import { HTTP_STATUS } from 'shared/http';
-import { API_BASE_URL } from 'constants/http';
+import { API_BASE_URL } from 'constants/api';
 import { authApi } from 'features/auth/redux';
 
 import { RootState } from '../store';

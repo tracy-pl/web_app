@@ -1,37 +1,36 @@
 import React, { useEffect } from 'react';
 import { Button, Form, Input, Layout, message, Typography } from 'antd';
-import { useLoginMutation } from '../../redux';
 
-const { Title } = Typography;
+import { getErrorMessage } from 'redux/utils';
+
+import { useLoginMutation } from 'features/auth/redux';
 
 export const LoginScreen = () => {
-  const [login, { isLoading, isError, error }] = useLoginMutation();
+  const [login, { isLoading, isError, error, isSuccess }] = useLoginMutation();
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     if (isError) {
       messageApi.open({
         type: 'error',
-        // TODO: transform error response
-        // @ts-ignore
-        content: error?.data?.message || 'Something went wrong',
+        content: getErrorMessage(error) || 'Something went wrong',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
 
-  const onFinish = (values: { email: string; password: string }) => {
-    login({ email: values.email, password: values.password });
-  };
+  useEffect(() => {
+    if (isSuccess) {
+      messageApi.open({
+        type: 'success',
+        content: 'Login successful. Redirecting...',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
-  const onFinishFailed = errorInfo => {
-    console.error({ errorInfo });
-    // messageApi.open({
-    //   type: 'error',
-    //   // TODO: transform error response
-    //   // @ts-ignore
-    //   content: error?.data?.message as string,
-    // });
+  const onFinish = async (values: { email: string; password: string }) => {
+    login({ email: values.email, password: values.password });
   };
 
   return (
@@ -40,20 +39,24 @@ export const LoginScreen = () => {
         {contextHolder}
         <Form
           name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="on"
+          onFinish={onFinish}
+          initialValues={{ remember: true }}
           style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}
         >
-          <Title>Sign in</Title>
+          <Typography.Title>Sign in</Typography.Title>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+            rules={[
+              {
+                type: 'email',
+                required: true,
+                message: 'Please input your email!',
+              },
+            ]}
           >
             <Input type="email" placeholder="Email" />
           </Form.Item>
-
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}

@@ -1,0 +1,9 @@
+{
+  "name": "@tracy/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}

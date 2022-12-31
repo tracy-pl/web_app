@@ -1,11 +1,15 @@
-import { Layout } from 'antd';
 import styled from 'styled-components';
+import {
+  Button,
+  Menu as AntdMenu,
+  Spin as AntdSpin,
+  Layout as AntdLayout,
+} from 'antd';
 
 export namespace S {
   export const LogoContainer = styled.div`
     height: 64px;
     font-size: 40px;
-    color: white;
     margin-bottom: 20px;
     overflow: hidden;
     display: flex;
@@ -22,11 +26,41 @@ export namespace S {
     border-radius: 25px;
   `;
 
-  export const Header = styled(Layout.Header)`
-    background: ${({ background }: { background: string }) =>
-      background}!important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  export const LogoutButton = styled(Button)`
+    margin: 16px;
+  `;
+
+  export const Layout = styled(AntdLayout)`
+    height: 100vh;
+  `;
+
+  export const Sider = styled(AntdLayout.Sider)`
+    & > div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: ${({ theme }) => theme.colors.background};
+    }
+  `;
+
+  export const Content = styled(AntdLayout.Content)`
+    height: 100%;
+    width: 100%;
+    margin: 16px;
+    padding: 24px;
+    min-height: 280px;
+    background: ${({ theme }) => theme.colors.background};
+  `;
+
+  export const MenuContainer = styled.div``;
+
+  export const Menu = styled(AntdMenu)`
+    border: 0 !important;
+    background: ${({ theme }) => theme.colors.background};
+  `;
+
+  export const Spin = styled(AntdSpin)`
+    max-height: 100% !important;
   `;
 }

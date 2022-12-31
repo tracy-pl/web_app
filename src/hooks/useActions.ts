@@ -2,14 +2,17 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { appActions } from 'redux/app';
 import { userActions } from 'redux/user';
-import { adminActions } from 'features/admin/redux';
 import { authActions } from 'features/auth/redux';
+import { usersActions } from 'features/admin/users/redux';
 
 const allActions = {
+  ...appActions,
   ...userActions,
   ...authActions,
-  ...adminActions,
+  // FOR ADMIN
+  ...usersActions,
 };
 
 export const useActions = () => {

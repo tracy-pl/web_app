@@ -1,17 +1,5 @@
-// import { User } from 'firebase/auth';
+import { User } from 'shared/types';
 
-export enum Roles {
-  Admin = 'admin',
-  User = 'user',
+export interface IUser extends User {
+  isAdmin: boolean;
 }
-
-export interface IUser {
-  _id: string;
-  email: string;
-  name: string;
-  avatar?: string;
-  roles: Roles[];
-  // TODO: add
-}
-
-// export type IUser = User;

@@ -1,21 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { adminApi } from './admin.api';
+import { usersApi } from './users.api';
 
 import { IUser } from 'types/models';
 
-interface AdminState {
+interface UsersState {
   users: IUser[];
 }
 
-const adminSlice = createSlice({
+const usersSlice = createSlice({
   name: 'auth',
   initialState: {
     users: [],
-  } as AdminState,
+  } as UsersState,
   extraReducers: builder => {
     builder.addMatcher(
-      adminApi.endpoints.getUsers.matchFulfilled,
+      usersApi.endpoints.getUsers.matchFulfilled,
       (state, { payload }) => {
         state.users = payload;
       },
@@ -24,5 +24,5 @@ const adminSlice = createSlice({
   reducers: {},
 });
 
-export const adminActions = adminSlice.actions;
-export const adminReducer = adminSlice.reducer;
+export const usersActions = usersSlice.actions;
+export const usersReducer = usersSlice.reducer;

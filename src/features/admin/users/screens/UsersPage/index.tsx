@@ -4,7 +4,7 @@ import { ReloadOutlined } from '@ant-design/icons';
 
 import SkeletonTableWrapper from 'components/SkeletonTableWrapper';
 
-import { useGetUsersQuery } from 'features/admin/redux';
+import { useGetUsersQuery } from 'features/admin/users/redux';
 
 export function UsersPage() {
   const { data: users = [], isLoading, refetch } = useGetUsersQuery();

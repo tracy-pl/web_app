@@ -1,112 +1,66 @@
-import React, { useMemo, useState } from 'react';
-import {
-  CarOutlined,
-  CrownOutlined,
-  LoadingOutlined,
-  LogoutOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { Avatar, Layout as AntdLayout, Menu, theme } from 'antd';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { CarOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 
-import { isAdminSelector, useGetMeQuery } from 'redux/user';
-import { useAppSelector, useLogout } from 'hooks';
+import { useLogout } from 'hooks';
+import { useGetMeQuery } from 'redux/user';
 
 import { S } from './Layout.styles';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-
-const { Sider, Content } = AntdLayout;
 
 export const Layout = () => {
+  const [siderCollapsed, setSiderCollapsed] = useState(false);
+  const { data: user, isLoading: userIsLoading } = useGetMeQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const { logout } = useLogout();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { token } = theme.useToken();
-  const isAdmin = useAppSelector(isAdminSelector);
-  const { data: user, isLoading } = useGetMeQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-  const [siderCollapsed, setSiderCollapsed] = useState(false);
 
-  const [topMenu, bottomMenu] = useMemo(
+  const menuItems = useMemo(
     () => [
-      [
-        isAdmin
-          ? {
-              key: '/users',
-              label: 'Users',
-              icon: <UserOutlined />,
-            }
-          : null,
-        {
-          key: '/tracy',
-          label: 'Tracy',
-          icon: <CarOutlined />,
-        },
-      ],
-      [
-        {
-          key: 'logout',
-          icon: <LogoutOutlined />,
-          label: 'Logout',
-          onClick: logout,
-        },
-      ],
+      user?.isAdmin
+        ? {
+            key: '/users',
+            label: 'Users',
+            icon: <UserOutlined />,
+          }
+        : null,
+      {
+        key: '/tracy',
+        label: 'Tracy',
+        icon: <CarOutlined />,
+      },
     ],
-    [isAdmin, logout],
+    [user?.isAdmin],
   );
-  const handleSiderToggle = () => setSiderCollapsed(!siderCollapsed);
+  const handleSiderToggle = useCallback(
+    () => setSiderCollapsed(prev => !prev),
+    [],
+  );
 
   return (
-    <AntdLayout style={{ height: '100vh' }}>
-      <Sider trigger={null} collapsible collapsed={siderCollapsed}>
-        <div
-          style={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+    <S.Spin spinning={userIsLoading}>
+      <S.Layout>
+        <S.Sider collapsible trigger={null} collapsed={siderCollapsed}>
           <S.LogoContainer onClick={handleSiderToggle}>
             <S.Logo src="assets/images/trasy-logo.png" />
             {siderCollapsed || 'tracy'}
           </S.LogoContainer>
-          <div style={{ flexGrow: 1 }}>
-            <Menu
-              theme="dark"
-              items={topMenu}
+          <S.MenuContainer>
+            <S.Menu
+              items={menuItems}
               defaultSelectedKeys={[pathname]}
               onSelect={({ key }) => navigate(key)}
             />
-          </div>
-          <div>
-            <Menu theme="dark" items={bottomMenu} />
-          </div>
-        </div>
-      </Sider>
-      <AntdLayout>
-        {/*TODO: get background from theme provider */}
-        <S.Header background={token.colorBgContainer}>
-          <div>{isLoading && <LoadingOutlined />}</div>
-          <div>
-            <Avatar
-              src={user?.avatar}
-              style={{ marginRight: '10px' }}
-              icon={isAdmin ? <CrownOutlined /> : <UserOutlined />}
-            />
-            {!user?.name ? 'Loading...' : user?.name}
-          </div>
-        </S.Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: token.colorBgContainer,
-          }}
-        >
+          </S.MenuContainer>
+          <S.LogoutButton icon={<LogoutOutlined />} onClick={logout}>
+            {siderCollapsed || 'Logout'}
+          </S.LogoutButton>
+        </S.Sider>
+        <S.Content>
           <Outlet />
-        </Content>
-      </AntdLayout>
-    </AntdLayout>
+        </S.Content>
+      </S.Layout>
+    </S.Spin>
   );
 };

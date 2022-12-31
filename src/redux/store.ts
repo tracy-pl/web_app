@@ -12,9 +12,10 @@ import {
   REHYDRATE,
 } from 'redux-persist/es/constants';
 
+import { appReducer } from './app';
 import { userReducer, userApi } from './user';
 import { authReducer, authApi } from 'features/auth/redux';
-import { adminApi, adminReducer } from 'features/admin/redux';
+import { usersApi, usersReducer } from 'features/admin/users/redux';
 
 const defaultMiddlewareConfig = {
   serializableCheck: {
@@ -29,12 +30,14 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  [adminApi.reducerPath]: adminApi.reducer,
+  [usersApi.reducerPath]: usersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
-  admin: adminReducer,
+  app: appReducer,
   auth: authReducer,
   user: userReducer,
+  // FOR ADMIN
+  users: usersReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -46,7 +49,8 @@ const setupStore = () => {
       getDefaultMiddleware(defaultMiddlewareConfig).concat([
         authApi.middleware,
         userApi.middleware,
-        adminApi.middleware,
+        // FOR ADMIN
+        usersApi.middleware,
       ]),
   });
 };

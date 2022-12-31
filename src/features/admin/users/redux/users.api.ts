@@ -1,9 +1,9 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { fetchBaseQueryWithAuth } from 'redux/utils/fetchBaseQueryWithAuth';
 import { IUser } from 'types/models';
+import { fetchBaseQueryWithAuth } from 'redux/utils';
 
-export const adminApi = createApi({
+export const usersApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: fetchBaseQueryWithAuth('/users'),
   endpoints: builder => ({
@@ -17,4 +17,4 @@ export const adminApi = createApi({
   }),
 });
 
-export const { useGetUsersQuery } = adminApi;
+export const { useGetUsersQuery } = usersApi;

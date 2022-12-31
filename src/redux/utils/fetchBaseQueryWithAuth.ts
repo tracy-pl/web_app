@@ -4,11 +4,13 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
-// import { tokenReceived, loggedOut } from './authSlice';
 import { Mutex } from 'async-mutex';
-import { API_BASE_URL } from '../../constants/http';
+
+import { HTTP_STATUS } from 'shared/http';
+import { API_BASE_URL } from 'constants/api';
+import { authApi } from 'features/auth/redux';
+
 import { RootState } from '../store';
-import { authApi } from '../../features/auth/redux';
 
 const mutex = new Mutex();
 export const fetchBaseQueryWithAuth: (
@@ -40,7 +42,7 @@ export const fetchBaseQueryWithAuth: (
 
     let result = await baseQuery(args, api, extraOptions);
 
-    if (result.error && result.error.status === 401) {
+    if (result.error && result.error.status === HTTP_STATUS.UNAUTHORIZED) {
       if (!mutex.isLocked()) {
         const release = await mutex.acquire();
         // TODO: rewrite to get token in request builder
@@ -50,7 +52,7 @@ export const fetchBaseQueryWithAuth: (
             authApi.endpoints.refreshToken.initiate(authState.refreshToken),
           );
           // @ts-ignore
-          if (!resp.data.acessToken) throw new Error('No access token');
+          if (!resp.data?.accessToken) throw new Error('No access token');
 
           result = await baseQuery(args, api, extraOptions);
         } catch (e) {

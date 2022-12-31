@@ -1,0 +1,9 @@
+{
+  "title": "Tracy",
+  "sidebar": {
+    "home": "Strona główna",
+    "tracks": "Tracy",
+    "users": "Użytkownicy",
+    "logoutBtn": "Wyloguj się"
+  }
+}

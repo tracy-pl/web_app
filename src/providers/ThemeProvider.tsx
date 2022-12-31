@@ -1,14 +1,45 @@
-import React from 'react';
-import { ConfigProvider } from 'antd';
+import React, { useMemo } from 'react';
+import { ConfigProvider, theme } from 'antd';
+import { ThemeProvider as SCThemeProvider } from 'styled-components';
 
-export const ThemeProvider = ({ children }) => (
-  <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: '#0081F6',
+import { useAppSelector } from 'hooks';
+import { getIsDarkTheme } from 'redux/app';
+import { colors, spacings, Schema } from 'shared/theme';
+
+const CustomSCThemeProvider = ({ children }) => {
+  const { token } = theme.useToken();
+  const schema: Schema = useMemo(
+    () => ({
+      colors: {
+        text: token.colorText,
+        border: colors.borderGray,
+        primary: token.colorPrimary,
+        background: token.colorBgContainer,
       },
-    }}
-  >
-    {children}
-  </ConfigProvider>
-);
+      allColors: colors,
+      spacings: spacings,
+    }),
+    [token],
+  );
+
+  return <SCThemeProvider theme={schema}>{children}</SCThemeProvider>;
+};
+
+export const ThemeProvider = ({ children }) => {
+  const isDarkTheme = useAppSelector(getIsDarkTheme);
+  const themeConfig = useMemo(
+    () => ({
+      algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      token: {
+        colorPrimary: colors.blue1,
+      },
+    }),
+    [isDarkTheme],
+  );
+
+  return (
+    <ConfigProvider theme={themeConfig}>
+      <CustomSCThemeProvider>{children}</CustomSCThemeProvider>
+    </ConfigProvider>
+  );
+};

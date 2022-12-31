@@ -1,9 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
+import { Roles } from 'shared/types';
 import { IUser } from 'types/models';
 
 import { userActions } from './user.slice';
-import { fetchBaseQueryWithAuth } from '../utils/fetchBaseQueryWithAuth';
+import { fetchBaseQueryWithAuth } from '../utils';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -14,6 +15,11 @@ export const userApi = createApi({
         return {
           url: '/profile',
         };
+      },
+      transformResponse: (user: IUser) => {
+        user.isAdmin = user.roles.includes(Roles.ADMIN);
+
+        return user;
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {

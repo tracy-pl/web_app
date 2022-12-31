@@ -60,7 +60,7 @@ export const Layout = () => {
           collapsed={siderCollapsed}
         >
           <S.LogoContainer
-            collapsed={siderCollapsed}
+            $collapsed={siderCollapsed}
             onClick={handleSiderToggle}
           >
             <S.Logo src="assets/images/trasy-logo.png" />
@@ -76,7 +76,7 @@ export const Layout = () => {
           <S.LogoutButton
             onClick={logout}
             icon={<LogoutOutlined />}
-            collapsed={siderCollapsed}
+            $collapsed={siderCollapsed}
           >
             {siderCollapsed || t('sidebar.logoutBtn')}
           </S.LogoutButton>

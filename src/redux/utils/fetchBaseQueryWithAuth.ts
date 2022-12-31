@@ -52,7 +52,7 @@ export const fetchBaseQueryWithAuth: (
             authApi.endpoints.refreshToken.initiate(authState.refreshToken),
           );
           // @ts-ignore
-          if (!resp.data?.acessToken) throw new Error('No access token');
+          if (!resp.data?.accessToken) throw new Error('No access token');
 
           result = await baseQuery(args, api, extraOptions);
         } catch (e) {

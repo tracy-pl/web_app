@@ -7,7 +7,7 @@ import {
 } from 'antd';
 import { ThemePropsWith } from 'shared/theme';
 
-type CollapsedProps = ThemePropsWith<{ collapsed: boolean }>;
+type CollapsedProps = ThemePropsWith<{ $collapsed: boolean }>;
 
 const LOGO_SIZE = 56;
 export const OPENED_SIDEBAR_WIDTH = 300;
@@ -19,13 +19,13 @@ export namespace S {
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: ${({ collapsed }: CollapsedProps) =>
-      collapsed ? 'center' : 'start'};
+    justify-content: ${({ $collapsed }: CollapsedProps) =>
+      $collapsed ? 'center' : 'start'};
     gap: 10px;
     cursor: pointer;
-    margin: ${({ collapsed, theme }: CollapsedProps) =>
+    margin: ${({ $collapsed, theme }: CollapsedProps) =>
       `${theme.spacings.md}px ${
-        collapsed ? theme.spacings.xs : theme.spacings.md
+        $collapsed ? theme.spacings.xs : theme.spacings.md
       }px 0`}};
   `;
 
@@ -38,8 +38,8 @@ export namespace S {
   `;
 
   export const LogoutButton = styled(Button)`
-    margin: ${({ collapsed, theme }: CollapsedProps) =>
-      `0 ${collapsed ? theme.spacings.sm : theme.spacings.md}px ${
+    margin: ${({ $collapsed, theme }: CollapsedProps) =>
+      `0 ${$collapsed ? theme.spacings.sm : theme.spacings.md}px ${
         theme.spacings.md
       }px`}};
   `;

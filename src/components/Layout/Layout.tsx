@@ -1,13 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { CarOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  CarOutlined,
+  LogoutOutlined,
+  UserOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
 
-import { useLogout } from 'hooks';
 import { useGetMeQuery } from 'redux/user';
+import { useLogout, useTranslation } from 'hooks';
 
-import { S } from './Layout.styles';
+import { S, OPENED_SIDEBAR_WIDTH, CLOSED_SIDEBAR_WIDTH } from './Layout.styles';
 
 export const Layout = () => {
+  const { t } = useTranslation();
   const [siderCollapsed, setSiderCollapsed] = useState(false);
   const { data: user, isLoading: userIsLoading } = useGetMeQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -18,20 +24,25 @@ export const Layout = () => {
 
   const menuItems = useMemo(
     () => [
+      {
+        key: '/',
+        label: t('sidebar.home'),
+        icon: <HomeOutlined />,
+      },
       user?.isAdmin
         ? {
             key: '/users',
-            label: 'Users',
+            label: t('sidebar.users'),
             icon: <UserOutlined />,
           }
         : null,
       {
         key: '/tracy',
-        label: 'Tracy',
+        label: t('sidebar.tracks'),
         icon: <CarOutlined />,
       },
     ],
-    [user?.isAdmin],
+    [t, user?.isAdmin],
   );
   const handleSiderToggle = useCallback(
     () => setSiderCollapsed(prev => !prev),
@@ -41,10 +52,19 @@ export const Layout = () => {
   return (
     <S.Spin spinning={userIsLoading}>
       <S.Layout>
-        <S.Sider collapsible trigger={null} collapsed={siderCollapsed}>
-          <S.LogoContainer onClick={handleSiderToggle}>
+        <S.Sider
+          collapsible
+          trigger={null}
+          width={OPENED_SIDEBAR_WIDTH}
+          collapsedWidth={CLOSED_SIDEBAR_WIDTH}
+          collapsed={siderCollapsed}
+        >
+          <S.LogoContainer
+            collapsed={siderCollapsed}
+            onClick={handleSiderToggle}
+          >
             <S.Logo src="assets/images/trasy-logo.png" />
-            {siderCollapsed || 'tracy'}
+            {siderCollapsed || t('title')}
           </S.LogoContainer>
           <S.MenuContainer>
             <S.Menu
@@ -53,8 +73,12 @@ export const Layout = () => {
               onSelect={({ key }) => navigate(key)}
             />
           </S.MenuContainer>
-          <S.LogoutButton icon={<LogoutOutlined />} onClick={logout}>
-            {siderCollapsed || 'Logout'}
+          <S.LogoutButton
+            onClick={logout}
+            icon={<LogoutOutlined />}
+            collapsed={siderCollapsed}
+          >
+            {siderCollapsed || t('sidebar.logoutBtn')}
           </S.LogoutButton>
         </S.Sider>
         <S.Content>

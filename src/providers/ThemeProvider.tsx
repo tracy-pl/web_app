@@ -4,7 +4,7 @@ import { ThemeProvider as SCThemeProvider } from 'styled-components';
 
 import { useAppSelector } from 'hooks';
 import { getIsDarkTheme } from 'redux/app';
-import { colors, Schema } from 'shared/theme';
+import { colors, spacings, Schema } from 'shared/theme';
 
 const CustomSCThemeProvider = ({ children }) => {
   const { token } = theme.useToken();
@@ -12,9 +12,12 @@ const CustomSCThemeProvider = ({ children }) => {
     () => ({
       colors: {
         text: token.colorText,
+        border: colors.borderGray,
         primary: token.colorPrimary,
         background: token.colorBgContainer,
       },
+      allColors: colors,
+      spacings: spacings,
     }),
     [token],
   );

@@ -1,0 +1,9 @@
+{
+  "title": "Tracy",
+  "sidebar": {
+    "home": "Home",
+    "tracks": "Tracks",
+    "users": "Users",
+    "logoutBtn": "Logout"
+  }
+}

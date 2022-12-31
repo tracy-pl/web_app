@@ -5,25 +5,15 @@ export const GlobalStyle = createGlobalStyle`
   body {
     height: 100%;
     width: 100%;
+    overflow: hidden;
   }
 
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  * {
+    font-family: Inter, sans-serif !important;
   }
 
   #root {
     min-height: 100%;
     min-width: 100%;
-  }
-
-  p,
-  label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
-    line-height: 1.5em;
-  }
-
-  input, select {
-    font-family: inherit;
-    font-size: inherit;
   }
 `;

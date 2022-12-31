@@ -32,6 +32,7 @@ export const ThemeProvider = ({ children }) => {
       algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
       token: {
         colorPrimary: colors.blue1,
+        colorText: isDarkTheme ? colors.white : colors.darkBlue,
       },
     }),
     [isDarkTheme],

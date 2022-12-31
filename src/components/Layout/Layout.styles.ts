@@ -15,13 +15,16 @@ export const CLOSED_SIDEBAR_WIDTH = 100;
 
 export namespace S {
   export const LogoContainer = styled.div`
-    font-size: 40px;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 20px;
+    color: ${({ theme }) => theme.colors.text};
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: ${({ $collapsed }: CollapsedProps) =>
       $collapsed ? 'center' : 'start'};
-    gap: 10px;
+    gap: ${({ theme }) => theme.spacings.md}px;
     cursor: pointer;
     margin: ${({ $collapsed, theme }: CollapsedProps) =>
       `${theme.spacings.md}px ${

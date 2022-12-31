@@ -7,7 +7,12 @@ import SkeletonTableWrapper from 'components/SkeletonTableWrapper';
 import { useGetUsersQuery } from 'features/admin/users/redux';
 
 export function UsersPage() {
-  const { data: users = [], isLoading, refetch } = useGetUsersQuery();
+  const {
+    data: users = [],
+    refetch,
+    isLoading,
+    isFetching,
+  } = useGetUsersQuery();
 
   const columns = useMemo(
     () => [
@@ -29,16 +34,17 @@ export function UsersPage() {
     <>
       {users.length > 0 && (
         <Button
-          style={{ marginBottom: '10px' }}
-          icon={<ReloadOutlined />}
           onClick={refetch}
+          icon={<ReloadOutlined />}
+          style={{ marginBottom: '10px' }}
         />
       )}
       <SkeletonTableWrapper loading={isLoading} columns={columns}>
         <Table
           rowKey="_id"
-          dataSource={users}
           columns={columns}
+          dataSource={users}
+          loading={isFetching || isLoading}
           pagination={users.length > 10 ? undefined : false}
         />
       </SkeletonTableWrapper>

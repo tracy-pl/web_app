@@ -13,11 +13,11 @@ import { useLogout, useTranslation } from 'hooks';
 import { S, OPENED_SIDEBAR_WIDTH, CLOSED_SIDEBAR_WIDTH } from './Layout.styles';
 
 export const Layout = () => {
-  const { t } = useTranslation();
   const [siderCollapsed, setSiderCollapsed] = useState(false);
   const { data: user, isLoading: userIsLoading } = useGetMeQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  const { t } = useTranslation();
   const { logout } = useLogout();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -48,6 +48,11 @@ export const Layout = () => {
     () => setSiderCollapsed(prev => !prev),
     [],
   );
+  const handleMenuItemClick = useCallback(
+    ({ key }) => navigate(key),
+    [navigate],
+  );
+  const defaultSelectedKeys = useMemo(() => [pathname], [pathname]);
 
   return (
     <S.Spin spinning={userIsLoading}>
@@ -55,13 +60,13 @@ export const Layout = () => {
         <S.Sider
           collapsible
           trigger={null}
+          collapsed={siderCollapsed}
           width={OPENED_SIDEBAR_WIDTH}
           collapsedWidth={CLOSED_SIDEBAR_WIDTH}
-          collapsed={siderCollapsed}
         >
           <S.LogoContainer
-            $collapsed={siderCollapsed}
             onClick={handleSiderToggle}
+            $collapsed={siderCollapsed}
           >
             <S.Logo src="assets/images/trasy-logo.png" />
             {siderCollapsed || t('title')}
@@ -69,8 +74,8 @@ export const Layout = () => {
           <S.MenuContainer>
             <S.Menu
               items={menuItems}
-              defaultSelectedKeys={[pathname]}
-              onSelect={({ key }) => navigate(key)}
+              onSelect={handleMenuItemClick}
+              defaultSelectedKeys={defaultSelectedKeys}
             />
           </S.MenuContainer>
           <S.LogoutButton

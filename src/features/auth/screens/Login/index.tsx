@@ -3,6 +3,7 @@ import { Button, Form, Input, Layout, message, Typography } from 'antd';
 
 import { getErrorMessage } from 'redux/utils';
 
+import { LoginPayload } from 'features/auth/types';
 import { useLoginMutation } from 'features/auth/redux';
 
 export const LoginScreen = () => {
@@ -29,7 +30,7 @@ export const LoginScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
-  const onFinish = async (values: { email: string; password: string }) => {
+  const onFinish = async (values: LoginPayload) => {
     login({ email: values.email, password: values.password });
   };
 

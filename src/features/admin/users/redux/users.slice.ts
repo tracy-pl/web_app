@@ -8,11 +8,13 @@ interface UsersState {
   users: IUser[];
 }
 
+const initialState: UsersState = {
+  users: [],
+};
+
 const usersSlice = createSlice({
   name: 'auth',
-  initialState: {
-    users: [],
-  } as UsersState,
+  initialState,
   extraReducers: builder => {
     builder.addMatcher(
       usersApi.endpoints.getUsers.matchFulfilled,

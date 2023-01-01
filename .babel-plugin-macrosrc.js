@@ -1,5 +1,8 @@
+const isDev = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   styledComponents: {
-    displayName: process.env.NODE_ENV !== 'production',
+    fileName: isDev,
+    displayName: isDev,
   },
 };

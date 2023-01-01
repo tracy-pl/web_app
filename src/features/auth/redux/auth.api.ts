@@ -4,16 +4,7 @@ import { IGenericResponse } from 'types';
 import { API_BASE_URL } from 'constants/api';
 import { userActions, userApi } from 'redux/user';
 
-interface RegisterPayload {
-  email: string;
-  password: string;
-  name: string;
-}
-
-interface LoginPayload {
-  email: string;
-  password: string;
-}
+import { LoginPayload, RegisterPayload } from '../types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -63,7 +54,7 @@ export const authApi = createApi({
           },
         };
       },
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch }) {
         dispatch(userActions.logout());
       },
     }),

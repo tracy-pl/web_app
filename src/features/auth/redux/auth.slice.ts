@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { authApi } from './auth.api';
 
 interface AuthState {
@@ -7,20 +8,22 @@ interface AuthState {
   refreshToken: string | null;
 }
 
+const initialState: AuthState = {
+  isAuthenticated: false,
+  accessToken: null,
+  refreshToken: null,
+};
+
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    isAuthenticated: false,
-    accessToken: null,
-    refreshToken: null,
-  } as AuthState,
+  initialState,
   extraReducers: builder => {
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
       (state, { payload }) => {
+        state.isAuthenticated = true;
         state.accessToken = payload.accessToken;
         state.refreshToken = payload.refreshToken;
-        state.isAuthenticated = true;
       },
     );
     builder.addMatcher(
@@ -31,9 +34,9 @@ const authSlice = createSlice({
       },
     );
     builder.addMatcher(authApi.endpoints.logout.matchFulfilled, state => {
+      state.isAuthenticated = false;
       state.accessToken = null;
       state.refreshToken = null;
-      state.isAuthenticated = false;
     });
   },
   reducers: {},

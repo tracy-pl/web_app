@@ -1,9 +1,11 @@
+import { Sizes } from './types';
+
 export const spacings = {
-  xxs: 2,
-  xs: 4,
-  sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
-  xxl: 64,
+  [Sizes.XXS]: 2,
+  [Sizes.XS]: 4,
+  [Sizes.SM]: 8,
+  [Sizes.MD]: 16,
+  [Sizes.LG]: 24,
+  [Sizes.XL]: 32,
+  [Sizes.XXL]: 64,
 };

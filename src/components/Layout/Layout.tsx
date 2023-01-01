@@ -7,6 +7,7 @@ import {
   HomeOutlined,
 } from '@ant-design/icons';
 
+import { Sizes } from 'shared/theme';
 import { useGetMeQuery } from 'redux/user';
 import { useLogout, useTranslation } from 'hooks';
 
@@ -63,8 +64,10 @@ export const Layout = () => {
         <S.Sider
           collapsible
           trigger={null}
+          breakpoint={Sizes.LG}
           collapsed={siderCollapsed}
           width={OPENED_SIDEBAR_WIDTH}
+          onBreakpoint={setSiderCollapsed}
           collapsedWidth={CLOSED_SIDEBAR_WIDTH}
         >
           <S.LogoContainer

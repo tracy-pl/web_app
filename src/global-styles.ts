@@ -6,14 +6,11 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
     overflow: hidden;
-  }
-
-  * {
-    font-family: Inter, sans-serif !important;
+    font-family: 'Inter', sans-serif;
   }
 
   #root {
-    min-height: 100%;
+    min-height: 100vh;
     min-width: 100%;
   }
 `;

@@ -31,6 +31,7 @@ export const ThemeProvider = ({ children }) => {
     () => ({
       algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
       token: {
+        fontFamily: 'Inter, sans-serif',
         colorPrimary: colors.blue1,
         colorText: isDarkTheme ? colors.white : colors.darkBlue,
       },

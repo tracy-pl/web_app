@@ -22,3 +22,13 @@ export interface Schema {
 }
 
 export type ThemePropsWith<T> = T & { theme: DefaultTheme };
+
+export enum Sizes {
+  XXS = 'xxs',
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+  XXL = 'xxl',
+}

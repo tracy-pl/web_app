@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { GlobalStyle } from 'theme/global-styles';
+import { GlobalStyle } from 'global-styles';
 
 import { HomePage } from 'screens/HomePage/Loadable';
 import { NotFoundPage } from 'screens/NotFoundPage/Loadable';

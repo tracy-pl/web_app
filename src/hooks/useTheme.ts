@@ -1,11 +1,14 @@
-import { theme } from 'antd';
-import { getIsDarkTheme, getTheme } from 'redux/app';
+import { theme as antdTheme } from 'antd';
+import { useTheme as useSCTheme } from 'styled-components';
+
 import { useAppSelector } from './useAppSelector';
+import { getIsDarkTheme, getTheme } from 'redux/app';
 
 export const useTheme = () => {
-  const { token: antdToken } = theme.useToken();
+  const theme = useSCTheme();
+  const { token: antdToken } = antdTheme.useToken();
   const currentTheme = useAppSelector(getTheme);
   const isDarkTheme = useAppSelector(getIsDarkTheme);
 
-  return { currentTheme, isDarkTheme, antdToken };
+  return { theme, currentTheme, isDarkTheme, antdToken };
 };

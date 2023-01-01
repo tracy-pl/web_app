@@ -20,6 +20,7 @@ export function UsersPage() {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        width: 200,
       },
       {
         title: 'Email',
@@ -32,13 +33,12 @@ export function UsersPage() {
 
   return (
     <>
-      {users.length > 0 && (
-        <Button
-          onClick={refetch}
-          icon={<ReloadOutlined />}
-          style={{ marginBottom: '10px' }}
-        />
-      )}
+      <Button
+        onClick={refetch}
+        disabled={isFetching}
+        icon={<ReloadOutlined />}
+        style={{ marginBottom: '10px' }}
+      />
       <SkeletonTableWrapper loading={isLoading} columns={columns}>
         <Table
           rowKey="_id"

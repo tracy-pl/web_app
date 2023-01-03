@@ -2,9 +2,11 @@ import React, { useMemo } from 'react';
 import { Button, Table } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 
-import SkeletonTableWrapper from 'components/SkeletonTableWrapper';
-
+import { Roles } from 'shared/types';
+import { isAdmin } from 'shared/utils';
 import { useGetUsersQuery } from 'features/admin/users/redux';
+
+import { SkeletonTableWrapper } from 'components/SkeletonTableWrapper';
 
 export function UsersPage() {
   const {
@@ -17,18 +19,29 @@ export function UsersPage() {
   const columns = useMemo(
     () => [
       {
-        title: 'Name',
-        dataIndex: 'name',
         key: 'name',
         width: 200,
+        title: 'Name',
+        dataIndex: 'name',
       },
       {
+        key: 'email',
         title: 'Email',
         dataIndex: 'email',
-        key: 'email',
+      },
+      {
+        key: 'role',
+        title: 'Role',
+        dataIndex: 'roles',
+        render: (roles: Roles[]) => (isAdmin({ roles }) ? 'Admin' : 'User'),
       },
     ],
     [],
+  );
+
+  const isPaginationEnabled = useMemo(
+    () => (users.length > 10 ? undefined : false),
+    [users.length],
   );
 
   return (
@@ -44,8 +57,8 @@ export function UsersPage() {
           rowKey="_id"
           columns={columns}
           dataSource={users}
-          loading={isFetching || isLoading}
-          pagination={users.length > 10 ? undefined : false}
+          loading={isFetching}
+          pagination={isPaginationEnabled}
         />
       </SkeletonTableWrapper>
     </>

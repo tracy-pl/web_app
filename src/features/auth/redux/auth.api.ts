@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { IGenericResponse } from 'types';
 import { API_BASE_URL } from 'constants/api';
+
 import { userActions, userApi } from 'redux/user';
 
 import { LoginPayload, RegisterPayload } from '../types';

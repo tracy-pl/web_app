@@ -1,5 +1,6 @@
-import { Button } from 'antd';
 import React, { ErrorInfo } from 'react';
+
+import { SomethingWentWrongPage } from 'screens/SomethingWentWrongPage/Loadable';
 
 export class ErrorBoundary extends React.Component<
   React.PropsWithChildren,
@@ -30,8 +31,7 @@ export class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <Button>Something went wrong.</Button>;
+      return <SomethingWentWrongPage />;
     }
 
     return this.props.children;

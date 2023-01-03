@@ -11,7 +11,7 @@ type SkeletonTableProps = SkeletonProps & {
   rowCount?: number;
 };
 
-export default function SkeletonTableWrapper({
+export function SkeletonTableWrapper({
   loading = false,
   active = false,
   rowCount = 12,

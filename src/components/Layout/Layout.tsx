@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   CarOutlined,
@@ -8,13 +8,19 @@ import {
 } from '@ant-design/icons';
 
 import { Sizes } from 'shared/theme';
+import { persistor } from 'redux/store';
 import { useGetMeQuery } from 'redux/user';
-import { useLogout, useTranslation } from 'hooks';
+import { useLogout, usePersistState, useTranslation } from 'hooks';
 
 import { S, OPENED_SIDEBAR_WIDTH, CLOSED_SIDEBAR_WIDTH } from './Layout.styles';
 
+const SIDER_COLLAPSED_STATE_KEY = 'siderCollapsed';
+
 export const Layout = () => {
-  const [siderCollapsed, setSiderCollapsed] = useState(false);
+  const [siderCollapsed, setSiderCollapsed] = usePersistState(
+    SIDER_COLLAPSED_STATE_KEY,
+    false,
+  );
   const { data: user, isLoading: userIsLoading } = useGetMeQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -45,9 +51,13 @@ export const Layout = () => {
     ],
     [t, user?.isAdmin],
   );
+  const handleLogout = useCallback(() => {
+    logout();
+    persistor.purge().catch(console.error);
+  }, [logout]);
   const handleSiderToggle = useCallback(
     () => setSiderCollapsed(prev => !prev),
-    [],
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
   const handleMenuItemClick = useCallback(
     ({ key }) => navigate(key),
@@ -57,6 +67,10 @@ export const Layout = () => {
     () => [location.pathname],
     [location.pathname],
   );
+  const handleOnBreakpoint = useCallback(broken => {
+    if (siderCollapsed) return;
+    setSiderCollapsed(broken);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <S.Spin spinning={userIsLoading}>
@@ -67,7 +81,7 @@ export const Layout = () => {
           breakpoint={Sizes.LG}
           collapsed={siderCollapsed}
           width={OPENED_SIDEBAR_WIDTH}
-          onBreakpoint={setSiderCollapsed}
+          onBreakpoint={handleOnBreakpoint}
           collapsedWidth={CLOSED_SIDEBAR_WIDTH}
         >
           <S.LogoContainer
@@ -85,7 +99,7 @@ export const Layout = () => {
             />
           </S.MenuContainer>
           <S.LogoutButton
-            onClick={logout}
+            onClick={handleLogout}
             icon={<LogoutOutlined />}
             $collapsed={siderCollapsed}
           >

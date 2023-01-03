@@ -1,10 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import styled from 'styled-components/macro';
 
-import packageJson from '../../../package.json';
-
-import { P } from './P';
+import { S } from './NotFoundPage.styles';
 
 export function NotFoundPage() {
   return (
@@ -13,37 +12,19 @@ export function NotFoundPage() {
         <title>404 Page Not Found</title>
         <meta name="description" content="Page not found" />
       </Helmet>
-      <Wrapper>
-        <Title>
+      <S.Wrapper>
+        <S.Title>
           4
           <span role="img" aria-label="Crying Face">
             😢
           </span>
           4
-        </Title>
-        <P>Page not found.</P>
-        <p>v {packageJson.version}</p>
-      </Wrapper>
+        </S.Title>
+        <S.P>Page not found.</S.P>
+        <Link to="/">
+          <Button>Go to Home page</Button>
+        </Link>
+      </S.Wrapper>
     </>
   );
 }
-
-const Wrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  min-height: 320px;
-`;
-
-const Title = styled.div`
-  margin-top: -8vh;
-  font-weight: bold;
-  color: black;
-  font-size: 3.375rem;
-
-  span {
-    font-size: 3.125rem;
-  }
-`;
